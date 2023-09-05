@@ -2,6 +2,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const homepageRouter = require('./controllers/homepage');
+// const loginRouter = require('./controllers/');
 // const routes = require('./controllers');
 
 // start the express app
@@ -18,9 +19,11 @@ app.set('view engine', 'handlebars');
 
 // use routet
 app.use('/', homepageRouter);
+app.use('/login', homepageRouter);
 //middleware for server
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //app listens
 app.listen(PORT, () => {
