@@ -1,0 +1,21 @@
+:root {
+  --text-color: #FFFFFF;
+  --background-color-primary: #333333;
+  --background-color-secondary: #1E272E;
+  --background-color-tertiary: #000000;
+}
+
+#navBar{
+  background-color: var(--background-color-primary);
+  color: var(--text-color);
+}
+a{
+  color: var(--text-color);
+}
+.container{
+  background-color: var(--background-color-secondary);
+  color: var(--text-color);
+}
+.title{
+  background-color: var(--background-color-tertiary);
+}
