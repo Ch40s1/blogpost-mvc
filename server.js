@@ -12,7 +12,7 @@ const session = require('express-session');
 // start the express app
 const app = express();
 //define the port
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // create handlebars
 const hbs = exphbs.create({ });
