@@ -15,7 +15,11 @@ router.get('/', async (req, res) => {
     const blogposts = blogPostData.map((blogpost) => blogpost.get({ plain: true }));
 
     // Render the 'home' template and pass the blogpost data to it
-    res.render('home', { blogposts });
+    res.render('home', {
+      blogposts,
+      logged_in: req.session.logged_in,
+      user_name: req.session.user_name,
+     });
   } catch (err) {
     console.error('Error fetching blog post data:', err);
     res.status(500).json(err);
