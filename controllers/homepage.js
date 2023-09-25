@@ -1,9 +1,9 @@
-// const BlogPost = require('../models/blogpost');
 const { BlogPost, User } = require('../models');
 const router = require('express').Router();
 
 // Get basic homepage with blog post data
 router.get('/', async (req, res) => {
+  // note this uses the models for blog and post then maps over the array to get data
   try {
     // Fetch all blog posts and include related User data
     const blogPostData = await BlogPost.findAll({
@@ -20,10 +20,6 @@ router.get('/', async (req, res) => {
     console.error('Error fetching blog post data:', err);
     res.status(500).json(err);
   }
-});
-
-router.get('/login', (req, res) => {
-  res.render('login');
 });
 
 router.get('/login', (req, res) => {
