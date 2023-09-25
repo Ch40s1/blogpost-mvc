@@ -3,6 +3,8 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const routes = require('./controllers');
 const session = require('express-session');
+const blogPostData = require('./seeds/postData.json');
+const { BlogPost } = require('./models');
 
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -43,7 +45,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // use routes
 app.use(routes);
 //app listens
-sequelize.sync({ force: false }).then(()=>{
+sequelize.sync({ force: true }).then( async ()=>{
+  for (const blogPost of blogPostData){
+    await BlogPost.create(blogPost);
+  }
   app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
   })
