@@ -35,6 +35,7 @@ router.get('/profile', withAuth, async (req, res) => {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
+      include: [{model: BlogPost}],
     });
 
     const user = userData.get({ plain: true });
@@ -46,6 +47,33 @@ router.get('/profile', withAuth, async (req, res) => {
       user_email: req.session.user_email,
     });
   } catch (err) {
+    res.status(500).json(err);
+  }
+});
+User
+router.get('/blogpost/:id', async (req, res) => {
+  try {
+    // Find the blog post by its ID and include the author's name
+    const blogPostData = await BlogPost.findByPk(req.params.id, {
+      include: [{ model: User, attributes: ['name'] }],
+    });
+
+    if (!blogPostData) {
+      res.status(404).json({ message: 'Blog post not found' });
+      return;
+    }
+
+    // Convert the retrieved data to a plain object
+    const blogpost = blogPostData.get({ plain: true });
+
+    // Render a 'blogpost' template and pass the blogpost data to it
+    res.render('blogpost', {
+      blogpost,
+      logged_in: req.session.logged_in,
+      user_name: req.session.user_name,
+    });
+  } catch (err) {
+    console.error('Error fetching blog post data:', err);
     res.status(500).json(err);
   }
 });

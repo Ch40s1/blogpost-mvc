@@ -19,3 +19,13 @@ a{
 .title{
   background-color: var(--background-color-tertiary);
 }
+
+#post-title{
+  font-size: 2rem;
+}
+#post-creator{
+  font-size: 1rem;
+}
+.heading{
+  padding-top: 2rem;
+}

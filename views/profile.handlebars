@@ -1,3 +1,52 @@
-<div>
-  <button>Create post</button>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <form class="form new-project-form">
+        <div class="form-group">
+          <label for="project-name">Project Name:</label>
+          <input class="form-control" type="text" id="project-name" name="project-name"
+            placeholder="Enter project name" />
+        </div>
+        <div class="form-group">
+          <label for="project-author">Posted By:</label>
+          <input class="form-control" type="text" id="project-author" name="project-author"
+            placeholder="Enter author" />
+        </div>
+        <div class="form-group">
+          <label for="project-desc">Description:</label>
+          <textarea class="form-control" id="project-desc" name="project-desc" rows="5"
+            placeholder="Enter project description"></textarea>
+        </div>
+        <div class="form-group text-center">
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
 </div>
+<div>
+  <di class="d-flex justify-content-center">
+    <h3 class="heading">My Blogpost</h3>
+</div>
+
+{{#each blogposts as |blogpost|}}
+<div class="mt-3 container blogpost">
+  <div class="d-flex justify-content-around title">
+    <h3 id="post-title">{{blogpost.title}}</h3>
+    <h3 id="post-creator">{{blogpost.name}}</h3>
+  </div>
+  <div class="p-4 post-text">
+    <p id="description">
+      {{blogpost.description}}
+    </p>
+  </div>
+  <div class=" d-flex justify-content-center">
+    <button id="delete-btn" class="btn btn-sm btn-danger" data-id="{{blogpost.id}}">DELETE</button>
+  </div>
+</div>
+{{/each}}
+
+</div>
+<script src="/js/profile.js"></script>

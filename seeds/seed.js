@@ -7,9 +7,12 @@ const blogPostData = require('./postData.json');
 const seedDatabase = async () => {
   try {
     await sequelize.sync({ force: true });
-    // Seed blog posts and associate them with random users
+    const users = await User.bulkCreate(userData, {
+      individualHooks: true,
+      returning: true,
+    });
     for (const blogPost of blogPostData) {
-      await BlogPost.create(blogPost);
+      await BlogPost.create({blogPost, user_id: users.id});
     }
 
     console.log('Database seeded successfully');
