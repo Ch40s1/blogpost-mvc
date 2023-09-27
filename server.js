@@ -6,6 +6,7 @@ const session = require('express-session');
 const blogPostData = require('./seeds/postData.json');
 const userData = require('./seeds/userData.json')
 const { BlogPost, User } = require('./models');
+const helpers = require('./utils/helpers');
 
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -16,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // create handlebars
-const hbs = exphbs.create({ });
+const hbs = exphbs.create({helpers });
 
 const sess = {
   secret: 'Super secret secret',
@@ -65,7 +66,3 @@ sequelize.sync({ force: true }).then(async () => {
     console.error('Error seeding data:', error);
   }
 });
-
-// app.listen(PORT, () => {
-//   console.log(`Server running at http://localhost:${PORT}/`);
-// })

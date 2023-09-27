@@ -1,17 +1,20 @@
 [
   {
     "title": "How to Bake the Perfect Chocolate Cake",
-    "name": "posted by baker101 on 2023-09-15",
+    "name": "baker101",
+    "date": "2023-03-23",
     "description": "In this blog post, I will share my secret recipe for baking the most delicious chocolate cake you've ever tasted."
   },
   {
     "title": "Exploring the Grand Canyon: A Journey to Remember",
-    "name": "Posted by cadventureSeeker on 2023-08-28",
+    "name": "cadventureSeeker",
+    "date": "2023-03-23",
     "description": "Join me on an incredible journey as I explore the breathtaking beauty of the Grand Canyon. This is a trip you won't want to miss!"
   },
   {
     "title": "The Future of Artificial Intelligence",
-    "name": "Posted by techEnthusiast on 2023-07-10",
+    "name": "techEnthusiast",
+    "date": "2023-03-23",
     "description": "In this blog post, I delve into the exciting developments and potential of artificial intelligence, from machine learning to neural networks."
   }
 ]

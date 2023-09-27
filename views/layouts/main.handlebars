@@ -14,6 +14,7 @@
             <h2>Blog Post</h2>
             <ul class="d-flex gap-4 list-unstyled mt-3 ">
                 <a href="/" target="_self">Dashboard</a>
+                 <h6 style="color: aliceblue;">{{format_date}}</h6>
                 {{#if logged_in}}
                 <a>Hello: {{user_name}}</a>
                 <a href="/profile">Profile</a>
@@ -21,6 +22,7 @@
                 {{else}}
                 <a href="/login" target="_self">Log In</a>
                 {{/if}}
+
             </ul>
         </nav>
     </header>
@@ -29,6 +31,9 @@
   <!-- Render script for logged in users only -->
   <script src='/js/logout.js'></script>
   {{/if}}
+   <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+          integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+          crossorigin="anonymous"></script>
 </body>
 
 </html>
