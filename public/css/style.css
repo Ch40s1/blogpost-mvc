@@ -5,27 +5,56 @@
   --background-color-tertiary: #000000;
 }
 
-#navBar{
+#navBar {
   background-color: var(--background-color-primary);
   color: var(--text-color);
 }
-a{
+
+a {
   color: var(--text-color);
 }
-.container{
+
+.container {
   background-color: var(--background-color-secondary);
   color: var(--text-color);
 }
-.title{
+
+.title {
   background-color: var(--background-color-tertiary);
 }
 
-#post-title{
+#post-title {
   font-size: 2rem;
 }
-#post-creator{
+
+#post-creator {
   font-size: 1rem;
 }
-.heading{
+
+.heading {
   padding-top: 2rem;
 }
+
+.hidden-container {
+  display: none;
+  color: #000000;
+
+}
+
+.hidden-container.open {
+  display: block;
+  color: aqua;
+}
+.viewing{
+  display: flex;
+  flex-direction: column;
+}
+.no-button {
+  border: none;
+  background: none;
+  outline: none;
+  color: #FFFFFF;
+}
+
+
+/* #comment-container {} */

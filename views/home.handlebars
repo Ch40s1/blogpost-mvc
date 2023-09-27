@@ -3,15 +3,24 @@
   <div class="d-flex justify-content-around title">
     <h3 id="post-title">{{blogpost.title}}</h3>
     <h3 id="post-creator">Created by {{blogpost.name}} on {{format_date blogpost.date}}</h3>
-
   </div>
   <div class="p-4 post-text">
-    <p id="description">
-      {{blogpost.description}}
-    </p>
+    <p id="description">{{blogpost.description}}</p>
   </div>
-<div class="d-flex justify-content-center ">
-  <button>Comment</button>
-</div>
+  <div class="d-flex justify-content-center viewing">
+    <button id="reveal-comments" class="no-button">View Comments</button>
+    <div class="hidden-container">
+      <button class="add-comment" data-blogpost-id="{{blogpost.id}}">Add Comment</button>
+      <div class="comment-container">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam ad natus facere! Quaerat amet aliquam
+          soluta corporis,
+          ipsum velit eveniet sed aspernatur unde maiores! Repudiandae iusto nobis reprehenderit repellat voluptatem?
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 {{/each}}
+
+
+<script src='/js/comment.js'></script>

@@ -5,7 +5,8 @@ const routes = require('./controllers');
 const session = require('express-session');
 const blogPostData = require('./seeds/postData.json');
 const userData = require('./seeds/userData.json')
-const { BlogPost, User } = require('./models');
+const commentData = require('./seeds/commentData.json');
+const { BlogPost, User, BlogComment } = require('./models');
 const helpers = require('./utils/helpers');
 
 const sequelize = require('./config/connection');
@@ -17,7 +18,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // create handlebars
-const hbs = exphbs.create({helpers });
+const hbs = exphbs.create({ helpers });
 
 const sess = {
   secret: 'Super secret secret',
@@ -57,6 +58,10 @@ sequelize.sync({ force: true }).then(async () => {
     // Create blog post records
     for (const blogPost of blogPostData) {
       await BlogPost.create(blogPost);
+    }
+    // Create blog post records
+    for (const blogcomment of commentData) {
+      await BlogComment.create(blogcomment);
     }
 
     app.listen(PORT, () => {

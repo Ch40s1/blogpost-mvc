@@ -1,4 +1,4 @@
-const { BlogPost, User } = require('../models');
+const { BlogPost, User, BlogComment } = require('../models');
 const router = require('express').Router();
 const withAuth = require('../utils/auth');
 
@@ -75,6 +75,19 @@ router.get('/blogpost/:id', async (req, res) => {
   } catch (err) {
     console.error('Error fetching blog post data:', err);
     res.status(500).json(err);
+  }
+});
+
+router.get('/comments', async (req, res) => {
+  try {
+    // Fetch all comments from the database
+    const comments = await BlogComment.findAll();
+
+    // Send the comments data as a JSON response
+    res.json(comments);
+  } catch (err) {
+    console.error('Error fetching comments data:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 module.exports = router;
