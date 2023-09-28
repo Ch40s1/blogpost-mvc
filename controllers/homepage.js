@@ -2,30 +2,68 @@ const { BlogPost, User, BlogComment } = require('../models');
 const router = require('express').Router();
 const withAuth = require('../utils/auth');
 
-// Get basic homepage with blog post data
+// router.get('/', async (req, res) => {
+//   try {
+//     // Fetch all blog posts and their related User data
+//     const blogPostData = await BlogPost.findAll({
+//       include: [{ model: User, attributes: ['name'] }],
+//     });
+
+//     // Fetch all comments
+//     const commentData = await BlogComment.findAll();
+
+//     // Map the retrieved data to plain objects
+//     const blogposts = blogPostData.map((blogpost) => blogpost.get({ plain: true }));
+//     const comments = commentData.map((comment) => comment.get({ plain: true }));
+
+//     res.render('home', {
+//       blogposts,
+//       comments, // Pass the comments to the template
+//       logged_in: req.session.logged_in,
+//       user_name: req.session.user_name,
+//     });
+//   } catch (err) {
+//     console.error('Error fetching blog post data:', err);
+//     res.status(500).json(err);
+//   }
+// });
+
+
+
 router.get('/', async (req, res) => {
-  // note this uses the models for blog and post then maps over the array to get data
   try {
-    // Fetch all blog posts and include related User data
+    // Fetch all blog posts and include their related User data and associated comments
     const blogPostData = await BlogPost.findAll({
-      // Include User model to get the author's name
-      include: [{ model: User, attributes: ['name'] }],
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: BlogComment,
+          as: 'comments', // Use the correct alias name
+          attributes: ['description'],
+        },
+      ],
     });
 
     // Map the retrieved data to plain objects
     const blogposts = blogPostData.map((blogpost) => blogpost.get({ plain: true }));
 
-    // Render the 'home' template and pass the blogpost data to it
+    console.log('Blog Posts:', blogposts);
+
     res.render('home', {
       blogposts,
       logged_in: req.session.logged_in,
       user_name: req.session.user_name,
-     });
+    });
   } catch (err) {
     console.error('Error fetching blog post data:', err);
     res.status(500).json(err);
   }
 });
+
+
 
 router.get('/login', (req, res) => {
   res.render('login')
@@ -35,7 +73,7 @@ router.get('/profile', withAuth, async (req, res) => {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
-      include: [{model: BlogPost}],
+      include: [{ model: BlogPost }],
     });
 
     const user = userData.get({ plain: true });
@@ -53,7 +91,7 @@ router.get('/profile', withAuth, async (req, res) => {
 User
 router.get('/blogpost/:id', async (req, res) => {
   try {
-    // Find the blog post by its ID and include the author's name
+
     const blogPostData = await BlogPost.findByPk(req.params.id, {
       include: [{ model: User, attributes: ['name'] }],
     });
@@ -63,10 +101,8 @@ router.get('/blogpost/:id', async (req, res) => {
       return;
     }
 
-    // Convert the retrieved data to a plain object
     const blogpost = blogPostData.get({ plain: true });
 
-    // Render a 'blogpost' template and pass the blogpost data to it
     res.render('blogpost', {
       blogpost,
       logged_in: req.session.logged_in,

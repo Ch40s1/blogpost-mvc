@@ -51,17 +51,26 @@ app.use(routes);
 sequelize.sync({ force: true }).then(async () => {
   try {
     // Create user records
-    for (const user of userData) {
-      await User.create(user);
-    }
+    const createdUsers = await User.bulkCreate(userData, {
+      individualHooks: true,
+      returning: true,
+    });
 
     // Create blog post records
-    for (const blogPost of blogPostData) {
-      await BlogPost.create(blogPost);
-    }
-    // Create blog post records
-    for (const blogcomment of commentData) {
-      await BlogComment.create(blogcomment);
+    const createdBlogPosts = await BlogPost.bulkCreate(blogPostData, {
+      returning: true,
+    });
+
+    // Create comment records with random user and blog post IDs
+    for (const comment of commentData) {
+      const randomUser = createdUsers[Math.floor(Math.random() * createdUsers.length)];
+      const randomBlogPost = createdBlogPosts[Math.floor(Math.random() * createdBlogPosts.length)];
+
+      // Assign random user and blog post IDs to the comment
+      comment.user_id = randomUser.id;
+      comment.blogpost_id = randomBlogPost.id;
+
+      await BlogComment.create(comment);
     }
 
     app.listen(PORT, () => {

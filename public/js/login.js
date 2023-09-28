@@ -1,18 +1,27 @@
-// Define the signupHandler function first
-// const signupHandler = (event) => {
-//   event.preventDefault();
 
-//   const name = document.querySelector('#name-signup').value.trim();
-//   const email = document.querySelector('#email-signup').value.trim();
-//   const password = document.querySelector('#password-signup').value.trim();
+const signupHandler = async (event) => {
+  event.preventDefault();
 
-//   if (name && email && password) {
-//     console.log('Signup successful');
-//     alert(`Name: ${name}\nEmail: ${email}\nPassword: ${password}`);
-//   } else {
-//     alert('Please enter valid info');
-//   }
-// }
+  const name = document.querySelector('#name-signup').value.trim();
+  const email = document.querySelector('#email-signup').value.trim();
+  const password = document.querySelector('#password-signup').value.trim();
+
+  if (name && email && password) {
+    const response = await fetch('/api/users', {
+      method: 'POST',
+      body: JSON.stringify({ name,  email, password }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response.ok) {
+      alert('success');
+      document.location.replace('/');
+    } else {
+      alert('Failed to signup');
+      // alert(response.statusText);
+    }
+  }
+};
 
 
 
@@ -44,4 +53,4 @@ const loginHandler = async (event) => {
 
   // Now, add event listeners to the forms
   document.querySelector('.login-form').addEventListener('submit', loginHandler);
-  // document.querySelector('.signup-form').addEventListener('submit', signupHandler);
+  document.querySelector('.signup-form').addEventListener('submit', signupHandler);

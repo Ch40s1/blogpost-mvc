@@ -31,22 +31,22 @@ router.delete('/:id', withAuth, async (req, res) =>{
     res.status(500).json(err);
   }
 });
-router.post('/comments', async (req, res) => {
+router.post("/api/comments", async (req, res) => {
   try {
-    const { text, blogpostId } = req.body; // Extract comment text and blog post ID from the request body
+    const { text, blogpostId } = req.body;
 
-    // Create the comment in the database and associate it with the specified blog post
-    const comment = await BlogComment.create({
+    // Create a new comment in the database
+    const newComment = await BlogComment.create({
       description: text,
       blog_id: blogpostId,
-      user_id: req.session.user_id, // Set the user_id as needed
+      user_id: req.session.user_id, // Assuming you have a user session with user_id
     });
 
-    // Respond with the newly created comment
-    res.json(comment);
-  } catch (err) {
-    console.error('Error creating comment:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    // Respond with the created comment data (you can customize this)
+    res.json({ text: newComment.description });
+  } catch (error) {
+    console.error("Error submitting comment:", error);
+    res.status(500).json({ error: "Unable to submit comment" });
   }
 });
 

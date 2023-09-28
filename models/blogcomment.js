@@ -1,4 +1,4 @@
-const {Model, DataTypes} = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 class BlogComment extends Model {}
@@ -14,7 +14,7 @@ BlogComment.init(
     description: {
       type: DataTypes.STRING,
     },
-    blog_id: {
+    blogpost_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'blogpost',

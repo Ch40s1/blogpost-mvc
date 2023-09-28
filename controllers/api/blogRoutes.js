@@ -1,6 +1,25 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
+
+router.post('/', async (req, res) => {
+  try {
+    const userData = await User.create(req.body);
+
+    req.session.save(() => {
+      req.session.user_id = userData.id;
+      req.session.user_name = userData.name;
+      req.session.user_email = userData.email;
+      req.session.logged_in = true;
+
+      res.status(200).json(userData);
+    });
+  } catch (err) {
+    console.error(err); // Log the error for debugging
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 router.post('/login', async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
@@ -28,6 +47,7 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 router.post('/logout', (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
