@@ -1,6 +1,3 @@
-// Select the form element by its class
-// const newBlogPostForm = document.querySelector('.new-project-form');
-
 // Create a function to handle form submission
 const createBlogPostHandler = async (event) => {
   event.preventDefault();
@@ -36,9 +33,11 @@ const createBlogPostHandler = async (event) => {
   }
 };
 
+// deletes the blogpost
 const deleteHandler = async (event) =>{
   if(event.target.hasAttribute('data-id')){
     const id = event.target.getAttribute('data-id');
+    // creates a delete method
     const response = await fetch(`/api/blogposts/${id}`, {
       method: "DELETE",
     })

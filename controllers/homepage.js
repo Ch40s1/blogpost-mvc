@@ -2,34 +2,7 @@ const { BlogPost, User, BlogComment } = require('../models');
 const router = require('express').Router();
 const withAuth = require('../utils/auth');
 
-// router.get('/', async (req, res) => {
-//   try {
-//     // Fetch all blog posts and their related User data
-//     const blogPostData = await BlogPost.findAll({
-//       include: [{ model: User, attributes: ['name'] }],
-//     });
-
-//     // Fetch all comments
-//     const commentData = await BlogComment.findAll();
-
-//     // Map the retrieved data to plain objects
-//     const blogposts = blogPostData.map((blogpost) => blogpost.get({ plain: true }));
-//     const comments = commentData.map((comment) => comment.get({ plain: true }));
-
-//     res.render('home', {
-//       blogposts,
-//       comments, // Pass the comments to the template
-//       logged_in: req.session.logged_in,
-//       user_name: req.session.user_name,
-//     });
-//   } catch (err) {
-//     console.error('Error fetching blog post data:', err);
-//     res.status(500).json(err);
-//   }
-// });
-
-
-
+// base route for the homepage
 router.get('/', async (req, res) => {
   try {
     // Fetch all blog posts and include their related User data and associated comments
@@ -52,6 +25,7 @@ router.get('/', async (req, res) => {
 
     console.log('Blog Posts:', blogposts);
 
+    // renders the home page with the blogposts
     res.render('home', {
       blogposts,
       logged_in: req.session.logged_in,
@@ -64,10 +38,12 @@ router.get('/', async (req, res) => {
 });
 
 
-
+// login route
 router.get('/login', (req, res) => {
   res.render('login')
 })
+
+// route for the profile only if logged in
 router.get('/profile', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
@@ -76,6 +52,7 @@ router.get('/profile', withAuth, async (req, res) => {
       include: [{ model: BlogPost }],
     });
 
+    // gets basic data
     const user = userData.get({ plain: true });
 
     res.render('profile', {
@@ -89,9 +66,10 @@ router.get('/profile', withAuth, async (req, res) => {
   }
 });
 User
+// used for development purposes
 router.get('/blogpost/:id', async (req, res) => {
   try {
-
+    // finds blog posts by id
     const blogPostData = await BlogPost.findByPk(req.params.id, {
       include: [{ model: User, attributes: ['name'] }],
     });
@@ -114,6 +92,7 @@ router.get('/blogpost/:id', async (req, res) => {
   }
 });
 
+// also used for dev purposes only, used to check comments
 router.get('/comments', async (req, res) => {
   try {
     // Fetch all comments from the database
@@ -126,4 +105,5 @@ router.get('/comments', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 module.exports = router;

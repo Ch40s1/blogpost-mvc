@@ -20,6 +20,7 @@ const PORT = process.env.PORT || 3001;
 // create handlebars
 const hbs = exphbs.create({ helpers });
 
+// session cookie for 5 minutes
 const sess = {
   secret: 'Super secret secret',
   cookie: {
@@ -47,8 +48,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // use routes
 app.use(routes);
-//app listens
-sequelize.sync({ force: true }).then(async () => {
+
+// this seeds the data every and the app listens
+sequelize.sync({ force: false }).then(async () => {
   try {
     // Create user records
     const createdUsers = await User.bulkCreate(userData, {

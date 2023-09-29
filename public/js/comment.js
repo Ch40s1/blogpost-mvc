@@ -1,27 +1,18 @@
 
 // Get all the "View Comments" buttons and add click event listeners
 const viewCommentBtns = document.querySelectorAll(".reveal-comments");
+
+// gets the hidden element when logged in.
 const hiddenEle = document.querySelector("#user-name");
 const userName = hiddenEle.getAttribute("data-name")
 
-
+// uses day js library to create the date
 let currentDay = dayjs();
- let date = currentDay.format("dddd, MMM DD");
+let date = currentDay.format("dddd, MMM DD");
 
-// function nameChecker() {
-//   const dataName = document.querySelector("#user-name");
-//   if (dataName) {
-//     const userName = dataName.getAttribute("data-name");
-//     return userName;
-//   } else {
-//     return "";
-//   }
-// }
-
+//  assigns a event listener to each btn
 viewCommentBtns.forEach((viewCommentBtn, index) => {
   viewCommentBtn.addEventListener("click", () => {
-    // Increment the index by 1 to start from 1 instead of 0
-    const buttonNumber = index + 1;
 
     // Find the hidden container associated with the clicked button
     const blogPost = viewCommentBtn.closest(".blogpost");
@@ -29,15 +20,13 @@ viewCommentBtns.forEach((viewCommentBtn, index) => {
 
     // Toggle the "open" class to show/hide the container
     reveal.classList.toggle("open");
-
-    // Display the button number in an alert
-    // alert(`Clicked number ${buttonNumber}`);
   });
 });
 
 // Get all the "Add Comment" buttons and add click event listeners
 const addCommentBtns = document.querySelectorAll(".add-comment");
 
+// for each comment btn add an event listener
 addCommentBtns.forEach((addCommentBtn) => {
   addCommentBtn.addEventListener("click", () => {
 
@@ -52,12 +41,15 @@ addCommentBtns.forEach((addCommentBtn) => {
     const commentSubmit = document.createElement("button");
     commentSubmit.textContent = "Submit";
 
+    // append the created elements
     commentContainer.appendChild(commentInput);
     commentContainer.appendChild(commentSubmit);
 
     commentSubmit.addEventListener("click", () => {
       const commentText = commentInput.value;
+      // deletes extra space
       if (commentText.trim() !== "") {
+        // crates a post to the api
         fetch("/api/blogposts/comments", {
           method: "POST",
           body: JSON.stringify({
@@ -72,6 +64,7 @@ addCommentBtns.forEach((addCommentBtn) => {
           .then((data) => {
             // Access the "text" property of the response object
             const commentTextElement = document.createElement("p");
+            // sets the text content to have the user name and date
             commentTextElement.textContent = `${data.description} created by ${userName} on ${date}}`;
             commentTextElement.style.color = "aqua";
             commentContainer.appendChild(commentTextElement);
@@ -80,6 +73,8 @@ addCommentBtns.forEach((addCommentBtn) => {
             console.error("Error submitting comment:", error);
           });
 
+
+        // deletes the removes the fields when done submitting
         commentInput.value = "";
         commentInput.remove();
         commentSubmit.remove();

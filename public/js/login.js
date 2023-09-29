@@ -14,11 +14,10 @@ const signupHandler = async (event) => {
     });
 
     if (response.ok) {
-      // alert('success');
+      // id ok then go to main page
       document.location.replace('/');
     } else {
       alert('Failed to signup');
-      // alert(response.statusText);
     }
   }
 };
