@@ -86,6 +86,5 @@ addCommentBtns.forEach((addCommentBtn) => {
       }
     });
 
-
   });
 });
