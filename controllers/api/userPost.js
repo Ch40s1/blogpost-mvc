@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const withAuth = require('../../utils/auth');
-const { BlogPost } = require('../../models');
+const { BlogPost, BlogComment } = require('../../models');
 
 router.post('/', withAuth, async (req, res) => {
   try{
@@ -31,23 +31,25 @@ router.delete('/:id', withAuth, async (req, res) =>{
     res.status(500).json(err);
   }
 });
-router.post("/api/comments", async (req, res) => {
+router.post("/comments", withAuth,  async (req, res) => {
   try {
-    const { text, blogpostId } = req.body;
+    const { description, blogpostId } = req.body;
 
     // Create a new comment in the database
     const newComment = await BlogComment.create({
-      description: text,
-      blog_id: blogpostId,
-      user_id: req.session.user_id, // Assuming you have a user session with user_id
+      description: description,
+      blogpost_id: blogpostId,
+      user_id: req.session.user_id,
     });
 
-    // Respond with the created comment data (you can customize this)
-    res.json({ text: newComment.description });
+    console.log({ description: newComment.description }); // Debugging
+    res.json({ description: newComment.description });
+
   } catch (error) {
     console.error("Error submitting comment:", error);
     res.status(500).json({ error: "Unable to submit comment" });
   }
 });
+
 
 module.exports = router;

@@ -14,7 +14,7 @@ const signupHandler = async (event) => {
     });
 
     if (response.ok) {
-      alert('success');
+      // alert('success');
       document.location.replace('/');
     } else {
       alert('Failed to signup');
@@ -43,7 +43,7 @@ const loginHandler = async (event) => {
 
     if (response.ok) {
       // If successful, redirect the browser to the profile page
-      alert('success');
+      // alert('success');
       document.location.replace('/');
     } else {
       alert('Failed to log in');

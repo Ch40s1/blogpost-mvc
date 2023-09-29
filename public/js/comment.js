@@ -1,5 +1,22 @@
+
 // Get all the "View Comments" buttons and add click event listeners
 const viewCommentBtns = document.querySelectorAll(".reveal-comments");
+const hiddenEle = document.querySelector("#user-name");
+const userName = hiddenEle.getAttribute("data-name")
+
+
+let currentDay = dayjs();
+ let date = currentDay.format("dddd, MMM DD");
+
+// function nameChecker() {
+//   const dataName = document.querySelector("#user-name");
+//   if (dataName) {
+//     const userName = dataName.getAttribute("data-name");
+//     return userName;
+//   } else {
+//     return "";
+//   }
+// }
 
 viewCommentBtns.forEach((viewCommentBtn, index) => {
   viewCommentBtn.addEventListener("click", () => {
@@ -14,7 +31,7 @@ viewCommentBtns.forEach((viewCommentBtn, index) => {
     reveal.classList.toggle("open");
 
     // Display the button number in an alert
-    alert(`Clicked number ${buttonNumber}`);
+    // alert(`Clicked number ${buttonNumber}`);
   });
 });
 
@@ -41,17 +58,22 @@ addCommentBtns.forEach((addCommentBtn) => {
     commentSubmit.addEventListener("click", () => {
       const commentText = commentInput.value;
       if (commentText.trim() !== "") {
-        fetch("/api/comments", {
+        fetch("/api/blogposts/comments", {
           method: "POST",
-          body: JSON.stringify({ text: commentText, blogpostId}),
+          body: JSON.stringify({
+            description: commentText, blogpostId,
+          }),
+
           headers: {
             "Content-type": "application/json",
           },
         })
           .then((response) => response.json())
           .then((data) => {
+            // Access the "text" property of the response object
             const commentTextElement = document.createElement("p");
-            commentTextElement.textContent = data;
+            commentTextElement.textContent = `${data.description} created by ${userName} on ${date}}`;
+            commentTextElement.style.color = "aqua";
             commentContainer.appendChild(commentTextElement);
           })
           .catch((error) => {
@@ -59,10 +81,11 @@ addCommentBtns.forEach((addCommentBtn) => {
           });
 
         commentInput.value = "";
-        // commentInput.remove();
-        // commentSubmit.remove();
+        commentInput.remove();
+        commentSubmit.remove();
       }
     });
+
 
   });
 });
