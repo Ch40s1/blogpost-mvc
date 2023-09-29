@@ -54,3 +54,9 @@ a {
   outline: none;
   color: #FFFFFF;
 }
+.hide{
+  display: none;
+}
+.hide.open{
+  display: block;
+}

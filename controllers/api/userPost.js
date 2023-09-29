@@ -51,5 +51,27 @@ router.post("/comments", withAuth,  async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    const postId = req.params.id;
+
+    // Find the blog post by ID and update its title and description
+    const updatedPost = await BlogPost.update(
+      {
+        title,
+        description,
+      },
+      {
+        where: { id: postId },
+      }
+    );
+
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    console.error(err); // Log the error for debugging
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 module.exports = router;
