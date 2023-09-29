@@ -29,6 +29,8 @@ To get started with our project, follow these steps:
 1. Make an account.
 2. Got to profile and make a blog post.
 
+    <a href='https://easyblogs1-0a58a50a4e3a.herokuapp.com/'>website Link</a>
+
 ## Credits
 
 Ask BCS - help with general info.
