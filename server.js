@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(routes);
 
 // this seeds the data every and the app listens
-sequelize.sync({ force: true }).then(async () => {
+sequelize.sync({ force: false }).then(async () => {
   try {
     // Create user records
     const createdUsers = await User.bulkCreate(userData, {
