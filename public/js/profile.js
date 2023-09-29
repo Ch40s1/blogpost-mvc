@@ -23,7 +23,6 @@ const createBlogPostHandler = async (event) => {
       });
 
       if (response.ok) {
-        alert('Created Post')
         document.location.replace('/profile');
       } else {
         alert('Failed to create blog post');
